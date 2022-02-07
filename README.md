@@ -29,7 +29,7 @@ puis le processus 2 lit à partir de la file, il  lira y
 
 Cela respect bien la specification séquentielle, on a mit x le premier puis y sur la file, et on dépiler x puis y, , La relation d'arrive avant est également préservée :
 
-p.enq(x) est bien p.deq(x)
+p.enq(x) est bien p.deq(x)  
 p.enq(y) est bien p.deq(y) 
 
 ###  Question 2 : p2 et p3 aurait-il pu obtenir une autre réponse à leur demande de deq ?
@@ -57,8 +57,8 @@ Avec cette execution P3 et P3 obtiennent d'autres valeurs possible
 **Réponse :** Oui, cette implèmentation de pile est linèarisable. Les point de linéarisations font référence au moment ou les opérations font réellement effets, donc notre cas il y'a trois points de linéarisations, à savoir :  
     - Lors de l'ajout d'elements à la pile : cela prend effet avec **t[sommet]=j**  
     - Lorsqu'ont enlève un element à la pile : cela prend effet :    
-        - soit lorsqu'ont fait un **return -1** si la pile est vide  
-        - soit lorsqu'on décrémente le sommet **sommet=sommet-1**
+          - soit lorsqu'ont fait un **return -1** si la pile est vide  
+          - soit lorsqu'on décrémente le sommet **sommet=sommet-1**
 
 ###  Question 3 : On supprime les synchronized, l’implémentation réalise-t-elle une implémentation linéarisable dans les cas suivants :
 ---------------
