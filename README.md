@@ -48,6 +48,6 @@ Avec cette execution P3 et P3 obtiennent d'autres valeurs possible
  ## Partie 1 , Exercice 2 : 
 -----------------------
 
-###  Question 1 :
+###  Question 1 :
 ------------
  
