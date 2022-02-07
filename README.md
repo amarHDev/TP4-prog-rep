@@ -63,4 +63,14 @@ Avec cette execution P3 et P3 obtiennent d'autres valeurs possible
 ###  Question 3 : On supprime les synchronized, l’implémentation réalise-t-elle une implémentation linéarisable dans les cas suivants :
 ---------------
 
-#### 
+**a) Il n’y a pas de concurrence entre les appels des threads**  
+**Réponse :**
+
+**b) Quand il y a concurrence entre deux threads, c’est 2 threads qui appelle emplier**  
+**Réponse :**
+
+**c) Quand il y a concurrence entre deux threads, c’est 2 threads qui appelle dépiler**  
+**Réponse :**
+
+**d) Quand il y a concurrence entre deux threads, c’est une thread qui appelle emplier et l’autre dépiler**  
+**Réponse :**
