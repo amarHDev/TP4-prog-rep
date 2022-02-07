@@ -7,7 +7,7 @@
 ###  Question 1 : L’histoire fournit est-elle linéarisable par rapport à la specification séquentielle d’une file ?
 ------------
 
-Réponse : Oui, cette histoire peut être linéarisable 
+**Réponse :** Oui, cette histoire peut être linéarisable 
 
 si le processus 1 écrit x puis y:   
 
@@ -35,7 +35,7 @@ p.enq(y) est bien p.deq(y)
 ###  Question 2 : p2 et p3 aurait-il pu obtenir une autre réponse à leur demande de deq ?
 ------------
 
-Réponse : Oui, p2 et p3 peuvent obtenir une autre réponse car comme les processus sont concurents, on peut les mettres dans n'importe quel orde, on peut donc exécuter :
+**Réponse :** Oui, p2 et p3 peuvent obtenir une autre réponse car comme les processus sont concurents, on peut les mettres dans n'importe quel orde, on peut donc exécuter :
 
     p1 p.enq(x)
     p1 p.enq(y)
@@ -48,6 +48,6 @@ Avec cette execution P3 et P3 obtiennent d'autres valeurs possible
  ## Partie 1 , Exercice 2 : 
 -----------------------
 
-### Question 1 :
+###  Question 1 :
 ------------
  
