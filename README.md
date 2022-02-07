@@ -50,4 +50,12 @@ Avec cette execution P3 et P3 obtiennent d'autres valeurs possible
 
 ###  Question 1 :
 ------------
- 
+
+
+###  Question 2 : Cette implémentation réalise-t-elle une implémentation linéarisable d’une pile ? Si oui indiquer les points de linéarisation.
+------------
+**Réponse :** Oui, cette implèmentation de pile est linèarisable. Les point de linéarisations font référence au moment ou les opérations font réellement effets, donc notre cas il y'a trois points de linéarisations, à savoir :
+    - Lors de l'ajout d'elements à la pile : cela prend effet avec **t[sommet]=j**
+    - Lorsqu'ont enlève un element à la pile : cela prend effet : 
+        - soit lorsqu'ont fait un **return -1** si la pile est vide
+        - soit lorsqu'on décrémente le sommet **sommet=sommet-1**
