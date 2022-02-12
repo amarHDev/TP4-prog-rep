@@ -181,18 +181,17 @@ Thread_3 :                      add()3              add()6
 
 **Réponse :**  Non, cette implèmentation n'est pas linèarisable, car l'instruction c=c+1 n'est pas atomique
 
-3. On considère l’implémentation suivante
+3. L'implémentation est-elle linéarisable (si on suppose qu’il y a moins de 100 appels à un objet compteur) ? 
+
+    **Réponse :**  
+    Not yet
+
 
 ### Exercice 4
 
 1. La spécification séquentielle de l'objet  
    **Réponse :**  
-
-2. L'implémentation est-elle linéarisable (si on suppose qu’il y a moins de 100 appels à un objet compteur) ? 
-
-    **Réponse :**  
-    Not yet
-
+   Not yet
 
 ```java
     public class MyThreadMettre extends Thread{
