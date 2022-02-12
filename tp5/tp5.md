@@ -166,3 +166,104 @@ Avec toutes ces objects on assure la linéarisation.
 
 ### Exercice 3
 
+1. La spécification séquentielle de l'objet
+   **Réponse :**
+
+2. Implémentation linéarizable de l'objet file
+
+
+```java
+    public class MyThreadMettre extends Thread{
+        public ThreadID tID;
+        private boolean etat;
+        private LinkedBlockingDeque<Integer> file;
+        
+        public boolean nonVide() {
+            return etat;
+        }
+        
+        public MyThreadMettre(LinkedBlockingDeque<Integer> file) {
+            tID = new ThreadID();
+            etat = true;
+            this.file = file;
+        }
+            
+        @Override
+        public void run() {
+            for (int i = 0; i < 10; i++) {
+                try {
+                    System.out.println("La thread " +tID.get() + " met    " + i);
+                    file.put(i);
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    System.out.println("error"); }}
+            etat = false; 
+            }
+    }
+
+    public class MyThreadEnleve extends Thread {
+        public ThreadID tID;
+        private MyThreadMettre ajoutF;
+        private LinkedBlockingDeque<Integer> file;
+        
+        
+        public MyThreadEnleve(MyThreadMettre ajoutF,LinkedBlockingDeque<Integer> file) {
+            tID = new ThreadID();
+            this.ajoutF = ajoutF;
+            this.file = file;
+        }
+        
+        @SuppressWarnings("static-access")
+        @Override
+        public void run() {
+            while (ajoutF.nonVide()) {
+                try {
+                    System.out.println("La thread " +tID.get() + " enlève "+ file.take());
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    System.out.println("Erreur");
+                }
+            }
+            System.out.println(file);
+        }
+    }
+
+    public static void main(String[] args) {
+		@SuppressWarnings("rawtypes")
+		//File de 10 entiers
+		LinkedBlockingDeque file_treads = new LinkedBlockingDeque(10);
+		
+		// 2 Threads qui mettent en file
+		MyThreadMettre threadMettre1 = new MyThreadMettre(file_treads);
+		MyThreadMettre threadMettre2 = new MyThreadMettre(file_treads);
+		threadMettre1.start();
+		threadMettre2.start();
+		
+		// 2 Threads qui enléve de la file
+		MyThreadEnleve threadanlevee1 = new MyThreadEnleve(threadMettre1,file_treads);
+		MyThreadEnleve threadanlevee2 = new MyThreadEnleve(threadMettre2,file_treads);
+		threadanlevee1.start();
+		threadanlevee2.start();
+	}
+```
+
+3. a) Montrer que quand la file est utilisée par 2 threads qui mettent et enlèvent des éléments dans lafile, cette implémentation n’est pas linéarisable.
+
+**Réponse :**
+    On peut avoir 2 Threads qui exécute la méthode mettre en concurence ce qui implique de cette implèmentation n'est pas linéarisable
+
+    **Exemple**
+    Si on a deux thread tel que :  
+
+    Thread_0 :     mettre(4)
+    Thread_1 :       mettre(5)    enleve(4)
+
+    Dans ce cas si mettre(5) s'execute avant mettre(4), enleve(4) ne pourra pas avoir lieu, car la valeur 5 a été mise la première, c'est elle qui doit être enlevée la première, or dans notre cas c'est la valeur 4 qui a été enlevée. ce qui implique que cette situation n'est pas linèarisable  
+
+
+3. b) Montrer que quand la file est utilisée par 2 threads l’une qui met des elements et l’autre qui enlève des elements cette implémentation est linéarisable.  
+
+**Réponse :**  
+    Car dans cette implémentation la thread qui enlève des elèments à partir de la file est bloqué si la file est vide car on utilise pour ça LinkedBlockingDeque, ce qui fait que la Thread sera bloquée jusqu'à ce que l'autre Thread insére au moins une donnée dans la file en question pour qu'elle puisse l'enlevée. Ce qui rend cette implèmentation linéarisable
+
+
