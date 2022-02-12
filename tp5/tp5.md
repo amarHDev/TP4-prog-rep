@@ -171,12 +171,12 @@ Avec toutes ces objects on assure la linéarisation.
 **Réponse :**  
 
 
-Thread_0 :        add()1               add()4
-Thread_1 :               add()2              add()5
-Thread_2 : add()0                                          add()7
-Thread_3 :                      add()3              add()6  
+Thread_0 :        add()1               add()4  
+Thread_1 :               add()2              add()5  
+Thread_2 : add()0                                          add()7  
+Thread_3 :                      add()3              add()6    
 
-2. L'implémentation est-elle linéarisable ?  
+2. L'implémentation est-elle linéarisable ?   
 
 **Réponse :**  Non, cette implèmentation n'est pas linèarisable, car l'instruction c=c+1 n'est pas atomique
 
@@ -271,15 +271,16 @@ Thread_3 :                      add()3              add()6
 3. a) Montrer que quand la file est utilisée par 2 threads qui mettent et enlèvent des éléments dans lafile, cette implémentation n’est pas linéarisable.
 
 **Réponse :**  
-    On peut avoir 2 Threads qui exécute la méthode mettre en concurence ce qui implique de cette implèmentation n'est pas linéarisable
+On peut avoir 2 Threads qui exécute la méthode mettre en concurence ce qui implique de cette implèmentation n'est pas linéarisable  
 
-    Exemple
-    Si on a deux thread tel que :  
+Exemple  
+    
+Si on a deux thread tel que :  
 
-    Thread_0 :     mettre(4)
-    Thread_1 :       mettre(5)    enleve(4)
+Thread_0 :     mettre(4)  
+Thread_1 :       mettre(5)    enleve(4)  
 
-    Dans ce cas si mettre(5) s'execute avant mettre(4), enleve(4) ne pourra pas avoir lieu, car la valeur 5 a été mise la première, c'est elle qui doit être enlevée la première, or dans notre cas c'est la valeur 4 qui a été enlevée. ce qui implique que cette situation n'est pas linèarisable  
+Dans ce cas si mettre(5) s'execute avant mettre(4), enleve(4) ne pourra pas avoir lieu, car la valeur 5 a été mise la première, c'est elle qui doit être enlevée la première, or dans notre cas c'est la valeur 4 qui a été enlevée. ce qui implique que cette situation n'est pas linèarisable    
 
 
 3. b) Montrer que quand la file est utilisée par 2 threads l’une qui met des elements et l’autre qui enlève des elements cette implémentation est linéarisable.  
