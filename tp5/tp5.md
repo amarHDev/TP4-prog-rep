@@ -166,10 +166,31 @@ Avec toutes ces objects on assure la linéarisation.
 
 ### Exercice 3
 
-1. La spécification séquentielle de l'objet
-   **Réponse :**
+1.  Donner un exemple d’exécution de 4 threads partageant un objet compteur et faisant chacune 2 appels add() de cet objet.  
 
-2. Implémentation linéarizable de l'objet file
+**Réponse :**  
+
+
+Thread_0 :        add()1               add()4
+Thread_1 :               add()2              add()5
+Thread_2 : add()0                                          add()7
+Thread_3 :                      add()3              add()6  
+
+2. L'implémentation est-elle linéarisable ?  
+
+**Réponse :**  Non, cette implèmentation n'est pas linèarisable, car l'instruction c=c+1 n'est pas atomique
+
+3. On considère l’implémentation suivante
+
+### Exercice 4
+
+1. La spécification séquentielle de l'objet  
+   **Réponse :**  
+
+2. L'implémentation est-elle linéarisable (si on suppose qu’il y a moins de 100 appels à un objet compteur) ? 
+
+    **Réponse :**  
+    Not yet
 
 
 ```java
@@ -249,10 +270,10 @@ Avec toutes ces objects on assure la linéarisation.
 
 3. a) Montrer que quand la file est utilisée par 2 threads qui mettent et enlèvent des éléments dans lafile, cette implémentation n’est pas linéarisable.
 
-**Réponse :**
+**Réponse :**  
     On peut avoir 2 Threads qui exécute la méthode mettre en concurence ce qui implique de cette implèmentation n'est pas linéarisable
 
-    **Exemple**
+    Exemple
     Si on a deux thread tel que :  
 
     Thread_0 :     mettre(4)
