@@ -80,8 +80,8 @@ i pourra donc lire une autre valeur (-1) car j n'a pas encore fait d'update pour
 **Exemple :** 
 Si on prend i = 2 et j = 4, et que on fait un scan_j[2] on tombe sur la valeur 2 et quand on fera un scan_i[4] pourrai tomber sur 4 car la thread j a fait une update(4)  
 
-|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|
-|0 |1 |2 |3 |4 |... |... |n-2 |n-1  
+|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|  
+|0     |1     |2     |3     |4     |...   |...   |n-2   |n-1  
 
 
 **(e) Pour j ≠ i, scan j [i] = i ou scan i [j] = j**
