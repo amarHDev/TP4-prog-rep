@@ -2,7 +2,6 @@
 
 
 ## Partie 3 , Exercice 1 : 
--------------------------
 
 Not yet
 
@@ -11,9 +10,8 @@ Not yet
 
 
 ## Partie 3 , Exercice 2 : 
--------------------------
 
-1. Propriétés du snapshot
+**1.Propriétés du snapshot**
 ------------------------- 
 
 Parmi les propriétés suivantes, les quelles sont vraies ? (démonstration ou contre-exemple)  
