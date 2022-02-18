@@ -28,12 +28,14 @@ Donc si on a un scan_i[5] on aura le résultat retourné 5
 
 Le tableau de mémoire partagée initial:  
 
-|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|
+|indice_0|indice_1|indice_2|indice_3|indice_4|indice_5|...|...|indice_n-1|
+|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|
 |-1 |-1 |-1 |-1 |-1 |... |... |-1 |-1  
 
 La tableau après scan et update de tt les threads :
 
-|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|
+|indice_0|indice_1|indice_2|indice_3|indice_4|indice_5|...|...|indice_n-1|
+|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|
 |0 |1 |2 |3 |4 |5 |... |... |n-1  
 
 **(b) Pour j ≠ i, scan j [i] = i ou scan j [i] = −1**
@@ -44,6 +46,7 @@ La tableau après scan et update de tt les threads :
 
 Dans le cas ou la thread 2 n'a pas fait un update(x) et que la thread 4 a lit la valeur a la position 2, cette dernière lira -1 car la thread 2 n'a pas fait d'update    
 
+|indice_0|indice_1|indice_2|indice_3|indice_4|...|...|indice_n-2|indice_n-1|
 |:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|
 |0 |1 |-1 |3 |4 |... |... |n-2 |-1  
 
@@ -54,7 +57,9 @@ La valeur de la thread 2 est bien restée a -1
 Dans le cas ou la thread 2 a fait une update(x) et que la thread 4 a lit la valeur a la position 2, cette dernière lira x, car la thread 2 a fait l'update(x) à l'indice 2  
 
 Tableau arpés update(x) par la thread 2  
-|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|
+
+|indice_0|indice_1|indice_2|indice_3|indice_4|...|...|indice_n-2|indice_n-1| 
+|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|
 |0 |1 |x |3 |4 |... |... |n-2 |-1
 
 Quand la thread 4 lira, elle lira x (scan_j[i]=x)    
@@ -67,7 +72,8 @@ Quand la thread 4 lira, elle lira x (scan_j[i]=x)
 
 Si on prend i = 2 et j = 4, et que on fait un scan_j[2] on tombe sur la valeur 2 mais quand on fera un scan_i[4] pourrai tomber sur -1 si la thread j n'a pas encore fait d'update
 
-|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|
+|indice_0|indice_1|indice_2|indice_3|indice_4|...|...|indice_n-2|indice_n-1| 
+|:----:  |:----:  |:----:  |:----:  |:----:  |:----:|:----:|:----:|:----:|
 |0 |1 |2 |3 |-1 |... |... |n-2 |n-1  
 
 i pourra donc lire une autre valeur (-1) car j n'a pas encore fait d'update pour ça valeur
