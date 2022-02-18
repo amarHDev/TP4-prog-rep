@@ -11,7 +11,7 @@ Not yet
 
 ## Partie 3 , Exercice 2 : 
 
-**1.Propriétés du snapshot**
+**1. Propriétés du snapshot**
 ------------------------- 
 
 Parmi les propriétés suivantes, les quelles sont vraies ? (démonstration ou contre-exemple)  
@@ -97,7 +97,88 @@ Si on prend i = 2 et j = 4, et que on fait un scan_j[2] on tombe sur la valeur 2
 
 **Réponse :** Propriété vrai. Si on a un scan j est inclu dans un scan i cela veux dire que scan i contient toutes les valeurs qui étaient dans scan j  
 
-2. Implémentation non-blocking
-------------------------------
+**2. Implémentation non-blocking**
+-------------------------------- 
+
+**1-(a) Toutes les exécutions de ce programme donnent-elles les mêmes affichages ?**
+
+**Réponse :** Non, toutes les exécution ne donnent pas les mêmes affichage, car parfois  il y'a des threads n’ont pas le temps de finir  
+
+Ci-dessous 3 exécution consécutive du programme  
+
+```
+scan de 0: 0 3 3 2 2 1 0 0 0 0 0 0 0 0 0   
+scan de 0: 0 3 3 2 2 1 1 0 0 0 0 0 0 0 0   
+scan de 0: 0 3 3 2 1 0 0 0 0 0 0 0 0 0 0  
+
+```
+Les 3 exécutions du même programme sont différentes.   
+
+**1-(b) L’implémentation réalise-t-elle l’atomicité des opérations update et scan?**
+
+**Réponse :** Non, l'atomicité des opérations update et scan n'est pas réalisée, car on ne peut pas avoir d’update entre la lecture de la dernière valeur du premier collect() et la lecture de la premiere valeurs du 2éme collect(). Pour que les opérations soient atomiques on aurait fait 2 collect() jusqu'à trouver 2 collect() qui
+retourne 2 fois la même chose  
+
+**1-(c) Que se passe t-il si une thread écrit 2 fois la même valeur ?
+
+**Réponse :** Si une thread écrit 2 fois la même valeur, le résultat de scan sera la dernière valeur écrite par cette thread  
+
+Pour l'exemple données si une thread écrit 1 puis 2 puis 1 comme suit :
+
+```
+        partage.update(new Integer(1));
+		partage.update(new Integer(2));
+		partage.update(new Integer(1));
+```
+
+Et bien à la fin, on aura le résultat du scan qui est 1 (cas scan 8) :  
+
+```
+scan de 8: 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0
+
+```
+
+**2-(a) Dans quelle cas une exécution ne termine pas?**
+
+**Réponse :** L'exécution ne se termine pas si :  
+
+une thread_0 lit i et obtient 3  
+une thread_1 change i en 5   
+une thread_2 demande un objet libre et obtient i puis elle change i en 3  
+une thread _0 fait une lecture de i et obtient a  
+
+Dans se cas la thread_0 croit qu'il n'y a pas eu de changement sur i depuis ça lecture  
+
+(plus généralement c'est dans le cas ou on a un scan avec des updates en concurrences)  
+
+**-** Cette implémentation assure le non-blocking  
+
+**2-(b) Justifier le fait que cette implémentation est atomique**  
+
+**Réponse :** Cette implémentation est atomique car on a notre double collect() et notre estampe qui vérifie si une écriture n’a pas été faite entre-temps. D'une autre manière cela veux dire au lieu de modifier la valeur d’une référence, on modifie deux valeurs -> (une référence et un numéro de version "stamp")). Même si la valeur
+passe de 3 à 5, puis de nouveau à 3, les numéros de version seront différents. Ce qui assure l'atomicité.  
+
+**-Est ce que ce serait encore le cas si la classe AtomicStampedReference<T> était remplacer par une classe**
+
+```
+class Stamped<T>{
+    T reference
+    int stamp;
+}
+```
+
+**Réponse :** Non. Si la classe est remplacé par Stamped<T>,on aura pas même résultat car dans ce cas, on va différencier l'écriture de la référence et l'écriture de l’estampe, on peut incrément l'estampe ou changer la référence (on pourra faire d'autre oppération entre les deux).  
+
+**2-(c) Réaliser cette implémentation du snapshot**
+
+Not yet
+
+
+
+
+
+
+
+
 
 
