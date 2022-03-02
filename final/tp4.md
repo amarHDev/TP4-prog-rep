@@ -103,7 +103,7 @@ Rest:-1
 
 > 3\. Cette implémentation réalise-t-elle une implémentation linéarisable d’une pile ? Si oui indiquer les points de linéarisation.
 
-La pile n'est plus linéarizable sans ```synchnonized```.
+La pile n'est plus linéarizable sans ```synchronized```.
 
 ```txt
 Thread 1 retire 10
@@ -141,18 +141,98 @@ Rest:2
 Rest:2
 ```
 
+Le code java:
+```java
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+public class TP4 {
+    public static class PileSync {
+        int t[];
+        int sommet = -1;
+    
+        PileSync(int n) {
+            t = new int[n];
+        }
+    
+        synchronized void empiler(int j) {
+            sommet = sommet + 1;
+            t[sommet] = j;
+        }
+    
+        synchronized int depiler() {
+            if (sommet == -1) return -1;
+            sommet = sommet - 1;
+            return t[sommet + 1];
+        }
+    }
+
+    public static class AjoutThread2 extends Thread {
+        public PileSync p;
+        int id;
+    
+        public AjoutThread2(PileSync p, int id) {
+            this.p = p;
+            this.id = id;
+        }
+    
+        public void run() {
+            for (int i = 1; i < 11; i++) {
+                int c = i + 100 * id;
+                System.out.println("Thread " + id + " empile " + c);
+                p.empiler(c);
+                try {
+                    Thread.sleep(50);
+                } catch (Exception e) {
+                    System.out.println("probleme");
+                }
+                this.yield();
+            }
+    
+            for (int i = 1; i < 11; i++) {
+                System.out.println("Thread " + id + " retire " + p.depiler());
+                try {
+                    Thread.sleep(10);
+                } catch (Exception e) {
+                    System.out.println("probleme");
+                }
+                this.yield();
+            }
+    
+            System.out.println("Rest:" + p.sommet);
+        }
+    }
+    
+    public static void main(String[] v) {
+        Thread[] Th = new Thread[3];
+        PileSync f = new PileSync(100);
+        for (int i = 0; i < 3; i++) {
+            Th[i] = new AjoutThread2(f, i);
+            Th[i].start();
+        }
+        for (int i = 0; i < 3; i++) {
+            try {
+                Th[i].join();
+            } catch (Exception e) {
+                System.out.println("probleme");
+            }
+        }
+    }
+}
+```
+
 > a) Il n’y a pas de concurrence entre les appels des threads
 
-**Réponse : not yet**
+**Réponse:** s'il n'y pas de de concurrence, tout va bien. Mais il n'est plus question de linéarization, une seule thread est en train d'acceder à la pile. 
 
 > b) Quand il y a concurrence entre deux threads, c’est 2 threads qui appelle emplier
 
-**Réponse : not yet**
+**Réponse:** ce cas de figure n'est pas linéarizable car ```sommet = sommet + 1;``` devrait être atomique. ```Le Thread.sleep(10)``` rend la réponse difficile, puis qu'on n'a pas de garantie réelle que la durée sera respecté.
 
 > c) Quand il y a concurrence entre deux threads, c’est 2 threads qui appelle dépiler
 
-**Réponse : not yet**
+**Réponse:** ce cas de figure n'est pas linéarizable car ```sommet = sommet - 1;``` devrait être atomique.
 
 > d) Quand il y a concurrence entre deux threads, c’est une thread qui appelle emplier et l’autre dépiler
 
-**Réponse : not yet**
+**Réponse:** ce cas de figure n'est pas linéarizable car ```sommet = sommet - 1;``` et ```sommet = sommet + 1;``` devrait être atomique.
