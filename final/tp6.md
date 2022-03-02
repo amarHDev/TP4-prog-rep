@@ -45,7 +45,7 @@ La tableau après scan et update de tt les threads :
 Dans le cas ou la thread 2 n'a pas fait un update(x) et que la thread 4 a lit la valeur a la position 2, cette dernière lira -1 car la thread 2 n'a pas fait d'update    
 
 |indice_0|indice_1|indice_2|indice_3|indice_4|...|...|indice_n-2|indice_n-1|
-|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|
+|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|
 |0 |1 |-1 |3 |4 |... |... |n-2 |-1  
 
 La valeur de la thread 2 est bien restée a -1   
@@ -126,9 +126,9 @@ retourne 2 fois la même chose
 Pour l'exemple données si une thread écrit 1 puis 2 puis 1 comme suit :
 
 ```
-        partage.update(new Integer(1));
-		partage.update(new Integer(2));
-		partage.update(new Integer(1));
+partage.update(new Integer(1));
+partage.update(new Integer(2));
+partage.update(new Integer(1));
 ```
 
 Et bien à la fin, on aura le résultat du scan qui est 1 (cas scan 8) :  
