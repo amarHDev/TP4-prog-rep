@@ -47,7 +47,7 @@ Avec cette execution P3 et P3 obtiennent d'autres valeurs possible.
 > 1\. En vous inspirant de la définition classique d’une pile donné la définition et la spécification séquentielle de cet objet.
 
 {p = P}    empiler(element x) {p = P.x}  
-{p = P.x}  depiler()  
+{p = P.x}  depiler() { p = P ; return x;} 
 {p = vide] depiler() {return Exception}
 
 **RESPONSE**
@@ -99,7 +99,7 @@ Rest:-1
 ```
 
 
-> 3\. Cette implémentation réalise-t-elle une implémentation linéarisable d’une pile ? Cette implémentation réalise-t-elle une implémentation linéarisable d’une pile ? Si oui indiquer les points de linéarisation.
+> 3\. Cette implémentation réalise-t-elle une implémentation linéarisable d’une pile ? Si oui indiquer les points de linéarisation.
 
 La pile n'est plus linéarizable sans ```synchnonized```.
 
