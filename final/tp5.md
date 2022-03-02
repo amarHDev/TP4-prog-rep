@@ -101,13 +101,22 @@ Non, cette implèmentation n'est pas linèarisable, car l'instruction c=c+1 n'es
 
 > 3\. L'implémentation est-elle linéarisable (si on suppose qu’il y a moins de 100 appels à un objet compteur) ? 
 
-**Réponse : . Not yet...**  
+**Réponse :**  Lorsqu'on veux faire add() on parcours le tableau t de TS jusqu'à ce qu'ont trouve une valeur pour nous et qu'ont la retourne.  
+S'il y'a moins de 100 appels, la première thread qui appelle la fonction d'ajout manipule le premier élément du tableau t, et une autre thread ne pourra plus modifier cette case car t[0].ts est mise à 0 et ne pourra plus être mise à 1, donc la thread en question bouclera jusqu’à ce qu’elle pourra manipuler la case t[1].ts qui sera aussi mise à 0, ainsi de suite pour les autres threads.  
+On peut conclure que chaque élément est manipulé une seule fois.    
+Le point de linéarisation de cette algorithme est sur l'instruction TS()  
 
 ### Exercice 4
 
 > 1\. La spécification séquentielle de l'objet  
 
-**Réponse : . Not yet...**  
+**Réponse :**
+
+```
+file entier f
+{f = F}     mettre  (int x) {f = F.x}
+{f == vide} enlever () {return -1}
+```
 
 ```java
 public class MyThreadMettre extends Thread{
