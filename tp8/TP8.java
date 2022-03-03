@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.concurrent.locks.*;
 public class TP8 {
 
@@ -5,6 +6,7 @@ public class TP8 {
         boolean add(Integer x);
         boolean remove(Integer x);
         boolean contains(Integer x);
+        void print();
     }
 
     public static class Node {
@@ -25,13 +27,27 @@ public class TP8 {
         }
     }
 
-    public class MonSet {
+    public static class MonSet implements Set{
         private Node head;
         private Lock lock = new ReentrantLock();
 
         public MonSet() {
             head = new Node(Integer.MIN_VALUE);
             head.next = new Node(Integer.MAX_VALUE);
+        }
+
+        public void print(){
+            Node node = head;
+            //System.out.println(ThreadID.get() + ":start");
+            String str = "_";
+            for(int i = 0; i < ThreadID.get(); i++){
+                str += str + str;
+            }
+            while(node != null){
+                System.out.println(str+ThreadID.get() + " item:"+ node.item + " key:"+ node.key);
+                node = node.next;
+            }
+            //System.out.println(ThreadID.get() + ":end");
         }
 
         public boolean add(Integer item) {
@@ -102,7 +118,39 @@ public class TP8 {
         }
     }
 
+    public static class Super extends Thread{
+        public Set set;
+
+        public Super(Set set){
+            this.set = set;
+        }
+
+        public void run(){
+            int i = ThreadID.get();
+            int[] values = {i, i * 2, i + 4, i + 3};
+            for(int value : values){
+                set.add(value);
+            }
+            set.print();
+        }
+    }
+
     public static void main(String[] args) {
 
+        MonSet set = new MonSet();
+
+        Thread threads[] = new Thread[3];
+        for (int i = 0; i < threads.length; i++) {
+            threads[i] = new Super(set);
+            threads[i].start();
+        }
+
+        for (int i = 0; i < threads.length; i++) {
+            try{
+                threads[i].join();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
     }
 }
