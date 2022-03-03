@@ -1,4 +1,3 @@
-import java.util.Arrays;
 import java.util.concurrent.locks.*;
 public class TP8 {
 
@@ -38,7 +37,6 @@ public class TP8 {
 
         public void print(){
             Node node = head;
-            //System.out.println(ThreadID.get() + ":start");
             String str = "_";
             for(int i = 0; i < ThreadID.get(); i++){
                 str += str + str;
@@ -47,7 +45,6 @@ public class TP8 {
                 System.out.println(str+ThreadID.get() + " item:"+ node.item + " key:"+ node.key);
                 node = node.next;
             }
-            //System.out.println(ThreadID.get() + ":end");
         }
 
         public boolean add(Integer item) {
@@ -131,12 +128,14 @@ public class TP8 {
             for(int value : values){
                 set.add(value);
             }
+            System.out.println(i + " has? " + (i+5) +" " + set.contains(i+5));
+            System.out.println(i + " remove? " + (i+4) +" " + set.remove(i+4));
             set.print();
         }
     }
 
     public static void main(String[] args) {
-
+    
         MonSet set = new MonSet();
 
         Thread threads[] = new Thread[3];
@@ -152,5 +151,7 @@ public class TP8 {
                 e.printStackTrace();
             }
         }
+
+       set.print();
     }
 }
