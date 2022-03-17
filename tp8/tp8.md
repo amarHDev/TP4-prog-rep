@@ -6,7 +6,7 @@
 
 **REPONSE:** Oui cette implémentation est Linéarisable. et le point de linéarisation c'est **la sortie de la boucle while**, car quand on sort du while on a donc trouvé qu'ont a dépassé la clé et donc l'element n'était pas dedans (c'est à dire quand curr.key > key ), dans se cas là on va retourner faux car on a bien tout parcouru et on est au bout du parcours.
 
-> 2\. Est -elle wait-free?
+> 2\. Est -elle wait-free? Non
 
 **REPONSE:** __no__
 
@@ -234,11 +234,11 @@ public class TP8EX2 {
 
 > 2\. Cette implementation est-elle linéarisable (si oui donnez les points de linéarisation et justifiez sinon donnez un exemple)
 
-**REPONSE:** __no__
+**REPONSE:** Oui cette implémentation est linéarisable et les points de linéarisations sont les return qui suivent le bloc while
 
 > 3\. Est -elle wait-free?
 
-**REPONSE:** __no__
+**REPONSE:** Oui
 
 > 4\. Réutilisé le programme de l’exercice precedent qui lancent 3 threads et les
 threads qui ajoutent et enlèvent des élèments avec cette implémentation.
