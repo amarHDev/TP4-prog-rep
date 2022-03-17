@@ -103,15 +103,18 @@ public class TP9 {
                 }
             }
         }
+        
         public boolean contains(Integer key){
-            boolean[] marked = new boolean[1];
+            boolean[] marked = {false};
             Node curr = this.head;
 
             while(curr.key < key){
                 curr = curr.next.getReference();
             }
 
-            curr.next.get(marked);
+            if(curr.next != null){
+                curr.next.get(marked);
+            }
 
             return (curr.key == key && !marked[0]);
         }

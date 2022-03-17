@@ -1,5 +1,7 @@
 # TP9
 
+## Exercice 1
+
 > 1\. Code de la partie 2 (Implémentation d’objets concurrents)
 
 ```java
@@ -82,6 +84,7 @@ public class TP9 {
                 }else{
                     Node node = new Node(key);
                     node.next = new AtomicMarkableReference<TP9.Node>(curr, false);
+                    // Point de linéarization
                     if(pred != null && pred.next != null && pred.next.compareAndSet(curr, node, false, false)){
                         return true;
                     }
@@ -102,21 +105,24 @@ public class TP9 {
                     if(!curr.next.attemptMark(succ, true)){
                         continue;
                     }
-
+                    // Point de linéarization
                     pred.next.compareAndSet(curr, succ, false, false);
                     return true;
                 }
             }
         }
+
         public boolean contains(Integer key){
-            boolean[] marked = new boolean[1];
+            boolean[] marked = {false};
             Node curr = this.head;
 
             while(curr.key < key){
                 curr = curr.next.getReference();
             }
 
-            curr.next.get(marked);
+            if(curr.next != null){
+                curr.next.get(marked);
+            }
 
             return (curr.key == key && !marked[0]);
         }
@@ -178,3 +184,75 @@ public class TP9 {
     }
 }
 ```
+> Preciser les points de linéarisation.
+
+Marquage dans les méthodes.
+
+
+> 2. Quelle propriete de progression a add? remove? contains?
+
+Contains avance quoi qu'il arrive.
+Add et remove vont chercher tant qu'il trouve l'emplacement pour inserer ou supprimer.
+
+## Exercice 2
+
+Tests avec ce code:
+```java
+public static void main(String[] args) {
+    Set set = new MonSet();
+
+    Thread threads[] = new Thread[100];
+    long startTime = System.currentTimeMillis();
+    for (int i = 0; i < threads.length; i++) {
+            if(i < 33){
+                threads[i] = new Thread(() -> {
+                    int id = (ThreadID.get()+1) * 1001;
+                    int[] values = {id, id * 20, id + 40, id + 30, id - 123};
+                    for(int j = 0; j < values.length; j++){
+                        System.out.println(values[j] + " " + set.add(values[j]));
+                    }
+                });
+            }else if(i < 66){
+                threads[i] = new Thread(() -> {
+                    int id = (ThreadID.get()+1) * 1001;
+                    int[] values = {id, id * 20, id + 40, id + 30, id - 123};
+                    for(int j = 0; j < values.length; j++){
+                        set.contains(values[j]);
+                    }
+                });
+            }else{
+                threads[i] = new Thread(() -> {
+                    int id = (ThreadID.get()+1) * 1001;
+                    int[] values = {id, id * 20, id + 40, id + 30, id - 123};
+                    for(int j = 0; j < values.length; j++){
+                        set.remove(values[j]);
+                    }
+                });
+            }
+    }
+
+    for (int i = 0; i < threads.length; i++) {
+        threads[i].start();
+    }
+
+    for (int i = 0; i < threads.length; i++) {
+        try{
+            threads[i].join();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    long endTime = System.currentTimeMillis();
+    System.out.println();
+    System.out.println("Time of the task " + ((endTime - startTime)) + " ms");
+    //set.print();
+}
+```
+
+|%Add| %Contains|%Remove| TP8EX1 | TP8EX2 | TP9 |
+|---|---|---|---|---|---|
+|33%|33%|33%| 30ms | 33ms | 28ms|
+|40%|40%|20%| 29ms | 19ms | 16ms|
+|20%|20%|60%| 15ms | 18ms | 15ms|
+|5%|90%|5%| 16ms | 16ms | 15ms|
+|80%|10%|10%| 18ms | 23ms | 16ms|
