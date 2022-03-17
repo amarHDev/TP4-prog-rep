@@ -238,7 +238,7 @@ public class TP8EX2 {
 
 > 3\. Est -elle wait-free?
 
-**REPONSE:** Non, elle n'est pas wait-free car si une thread par exemple veux mettre un verou sur l'element 2 pour qu'elle puisse supprimer se dernier justement, elle peut pas mettre le verou car y'a la thread d'avant qui ajoute un element 3 donc elle doit attendre jusqu'à ce que cette tread relache le 2 pour quelle puis avoir accès et le supprimer, donc elle doit attendre, et donc cette implémentation n'est pas wait-free
+**REPONSE:** Non, elle n'est pas wait-free car si une thread par exemple veux mettre un verou sur l'element 2 pour qu'elle puisse supprimer se dernier justement, elle peut pas mettre le verou car y'a la thread d'avant qui ajoute un element 3 donc elle doit attendre jusqu'à ce que cette thread relache le 2 pour quelle puisse avoir accès à ce dernier et le supprimer, vu qu'elle doit attendre, cette implémentation n'est tout simplement pas wait-free
 
 > 4\. Réutilisé le programme de l’exercice precedent qui lancent 3 threads et les
 threads qui ajoutent et enlèvent des élèments avec cette implémentation.
